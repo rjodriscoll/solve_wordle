@@ -44,7 +44,7 @@ class WordGuesser:
         self.current_word = None
         self.solved = False
 
-    def guess_word(self):
+    def guess_word(self) -> str:
         if self.guesses == 0:
             print(f"on guess {self.guesses} the word is about")
             return 'about'
@@ -54,15 +54,15 @@ class WordGuesser:
             return word
        
 
-    def insert_word_into_grid(self):
+    def insert_word_into_grid(self) -> None:
         self.current_word = self.guess_word()
         self.current_grid[self.current_row] = [c for c in self.current_word]
         self.update_row()
     
-    def update_guesses(self):
+    def update_guesses(self) -> None:
         self.guesses += 1
     
-    def update_row(self):
+    def update_row(self) -> None:
         self.current_row +=1
     
     def evaluate_word(self):
@@ -74,7 +74,7 @@ class WordGuesser:
             elif letter not in answer:
                 self.letters_not_in_word.append(letter)
 
-    def reduce_potential_words(self, verbose = False):
+    def reduce_potential_words(self, verbose = False) -> None:
         for index, letter in enumerate(self.word_guess):
             if letter == '.':
                 pass 
@@ -90,13 +90,13 @@ class WordGuesser:
         if verbose:
             print(f"the number of remaining words is {len(self.remaining_words)}")
 
-    def check_if_soved(self):
+    def check_if_soved(self) -> None:
         if len(self.remaining_words) == 1 and self.remaining_words[0] == answer:
             self.solved = True
         else:
             pass
 
-    def play_game(self):
+    def play_game(self) -> None:
         while self.guesses < N_GUESSES:
             self.insert_word_into_grid()
             self.evaluate_word()
