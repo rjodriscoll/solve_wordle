@@ -5,7 +5,7 @@ WORD_LENGTH = 5
 N_GUESSES = 6
 N_WORDS = 1
 ENGLISH_WORDS_LIST = [*english_words_set]
-LIMIT = 6
+
 
 
 class GridGenerator:
@@ -97,7 +97,7 @@ class WordGuesser:
             pass
 
     def play_game(self):
-        while self.guesses < LIMIT:
+        while self.guesses < N_GUESSES:
             self.insert_word_into_grid()
             self.evaluate_word()
             self.reduce_potential_words()
