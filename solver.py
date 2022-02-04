@@ -5,7 +5,7 @@ WORD_LENGTH = 5
 N_GUESSES = 6
 N_WORDS = 1
 ENGLISH_WORDS_LIST = [*english_words_set]
-LIMIT = 10
+LIMIT = 6
 
 
 class GridGenerator:
@@ -42,6 +42,7 @@ class WordGuesser:
         self.guesses = 0
         self.current_row = 0
         self.current_word = None
+        self.solved = False
 
     def guess_word(self):
         if self.guesses == 0:
@@ -73,7 +74,7 @@ class WordGuesser:
             elif letter not in answer:
                 self.letters_not_in_word.append(letter)
 
-    def reduce_potential_words(self):
+    def reduce_potential_words(self, verbose = False):
         for index, letter in enumerate(self.word_guess):
             if letter == '.':
                 pass 
@@ -85,9 +86,15 @@ class WordGuesser:
 
         for letter in self.letters_not_in_word:
             self.remaining_words = [word for word in self.remaining_words if letter not in word]
+       
+        if verbose:
+            print(f"the number of remaining words is {len(self.remaining_words)}")
 
-        print(f"the number of remaining words is {len(self.remaining_words)}")
-
+    def check_if_soved(self):
+        if len(self.remaining_words) == 1 and self.remaining_words[0] == answer:
+            self.solved = True
+        else:
+            pass
 
     def play_game(self):
         while self.guesses < LIMIT:
@@ -95,12 +102,16 @@ class WordGuesser:
             self.evaluate_word()
             self.reduce_potential_words()
             self.update_guesses()
+            self.check_if_soved()
 
-            if len(self.remaining_words) == 1 and self.remaining_words[0] == answer:
+            if self.solved:
                 print(f"solved with word {self.remaining_words[0]} in {self.guesses} guesses")
                 break
             else: 
-                print(f"this program failed. You had {len(self.remaining_words)} potential words remaining")
+                print(f"You have {len(self.remaining_words)} potential words remaining")
+        
+        if not self.solved:
+             print(f"Problem failed. You had {len(self.remaining_words)} potential words remaining and exceeded the guess limit :(")
 
 answers = AnswerGenerator()
 answer = answers.word
